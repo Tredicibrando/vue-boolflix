@@ -1,7 +1,7 @@
 <template>
     <header class="header">
         <figure>
-            <img src="../assets/Netflix-Logo.svg" alt="">
+            <img src="../assets/Boolflix.svg" alt="">
         </figure>
     </header>
 </template>
@@ -14,7 +14,8 @@
 
 <style lang="scss" scoped>
 
-$black: #161616;
+$black: #232323;
+$red: #d81f26;
 
     .header{
         display: flex;
@@ -25,9 +26,18 @@ $black: #161616;
         figure{
             width: max-content;
             padding: 10px;
+            cursor: pointer;
+
+            
 
             img{
-                height: 40px;
+                height: 23px;
+                opacity: 90%;
+
+                &:hover{
+                opacity: 100%;
+                transition: 150ms ease-in-out;
+            }
             }
         }
     }
