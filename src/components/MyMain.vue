@@ -21,8 +21,10 @@
                 <!-- lingua -->
                 <img class="flag" :src="flags[element.original_language]">
                 <!-- voto -->
-                <p class="vote" v-for="items in voteFn(element.vote_average)" :key="items">{{voteFn(element.vote_average)}}</p>
-
+                <div class="stars_wrapper">
+                    <i class="fa-solid fa-star vote" v-for="items in voteFn(element.vote_average)" :key="items"></i>
+                </div>
+                
             </div>
         </div>
     
@@ -230,9 +232,20 @@ main{
                 
             }
 
-            .vote{
+
+            .stars_wrapper{
+                display: flex;
+                gap: 3px;
+                padding: 5px 0;
+
+                .vote{
                 z-index: 1;
+                display: inline;
+                font-size: 12px;
+                color: white;
             }
+            }
+            
             
         }
     }
