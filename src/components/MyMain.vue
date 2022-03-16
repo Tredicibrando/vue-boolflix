@@ -2,8 +2,8 @@
     <main class="main">
 
         <div class="search_wrapper">
-            <input class="search-bar" type="text" v-model="search" @keyup.enter="filterMovies">
-            <button @click="filterMovies" class="search-button">
+            <input class="search-bar" type="text" v-model="search" @keyup.enter="filterData">
+            <button @click="filterData" class="search-button">
                 <img src="../assets/search_icon.svg" alt="">
             </button>
         </div>
@@ -12,14 +12,16 @@
         <div class="card_wrapper">
             <div class="card_movie" v-for="element in movies" :key="element.id">
                  
+
+                 <img class="thumb" :src="`https://image.tmdb.org/t/p/w342/${element.poster_path}`" alt="">
                 <!-- titolo -->
-                 <h2 class="title">{{element.title}}</h2>
+                <h2 class="title">{{element.title}} {{element.name}}</h2>
                 <!-- titolo originale -->
-                <p class="original-title">{{element.original_title}}</p>
+                <p class="original-title">{{element.original_title}} {{element.original_name}}</p>
                 <!-- lingua -->
-                <p class="language">{{element.original_language}}</p>
+                <img class="flag" :src="flags[element.original_language]">
                 <!-- voto -->
-                <p class="vote">{{element.vote_average}}</p>
+                <p class="vote" v-for="items in voteFn(element.vote_average)" :key="items">{{voteFn(element.vote_average)}}</p>
 
             </div>
         </div>
@@ -36,6 +38,7 @@
 
 import axios from 'axios'
 
+
     export default {
         name: 'MyMain',
 
@@ -43,12 +46,26 @@ import axios from 'axios'
             return{
                 search: '',
                 baseURL: 'https://api.themoviedb.org/3',
-                movies: []
+                movies: [],
+                flags:{
+                    en: require('../assets/img/united-kingdom.png'),
+                    it: require('../assets/img/italy.png'),
+                    fr: require('../assets/img/france.png'),
+                }
+
             }
         },
 
         methods:{
-            filterMovies: function(){
+
+            voteFn: function(voto){
+                return Math.floor(voto/2)
+            },
+
+
+            filterData: function(){
+
+
                 axios.get(`${this.baseURL}/search/movie`,{
                     params:{
                         api_key:'b808f97a8f4ea88d0082efa82632f877',
@@ -57,14 +74,29 @@ import axios from 'axios'
                     }
                 })
                 .then ( res => {
-                    this.movies = res.data.results,
+                    this.movies = res.data.results
+                })
+                .catch ( error => {
+                    console.log(error.response)
+                }),
+
+
+                axios.get(`${this.baseURL}/search/tv`,{
+                    params:{
+                        api_key:'b808f97a8f4ea88d0082efa82632f877',
+                        query: this.search,
+                        language: 'it-IT'
+                    }
+                })
+                .then ( res => {
+                    this.movies.push(...res.data.results),
                     this.search = ''
+                    
                 })
                 .catch ( error => {
                     console.log(error.response)
                 })
 
-                console.log('ho invocato la funzione')
                 console.log(this.movies)
             },
         },
@@ -83,7 +115,8 @@ main{
     display: flex;
     justify-content: center;
     flex-direction: column;
-    overflow: auto;
+    overflow-y: auto;
+
 
     .search_wrapper{
         margin: 0 auto;
@@ -101,7 +134,9 @@ main{
             border-radius: 9px;
             padding: 3px 15px;
             color: white;
+            width: 450px;
 
+    
             &:focus-visible {
             outline: 2px solid $red;
             box-shadow: 0px 0px 6px 1px $red;
@@ -136,47 +171,67 @@ main{
     .card_wrapper{
         width: 100%;
         display: flex;
-        padding: 10px;
+        padding: 20px 10px;
         flex-wrap: wrap;
-        justify-content: space-evenly;
-        gap: 10px 0;
+        gap: 10px 10px;
         flex-grow: 1;
+        height: calc(100vh - 150px);
+
 
         .card_movie{
             background-color: grey;
             border-radius: 8px;
-            border: 4px solid transparent;
             width: calc( (100% / 5) - 10px);
             height: 190px;
             padding: 5px;
-            background-image: url('../assets/thumb-test.jpg');
-            background-repeat: no-repeat;
-            background-position: center;
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             position: relative;
             color: white;
+            overflow: hidden;
 
         
-            &:hover{
-                border: 4px solid white;
-                transition: 100ms ease-in-out;
-            }
+        
+            
 
             
+            .thumb{
+                height: 190px;
+                width: 100%;
+                display: block;
+                position: absolute;
+                margin: auto;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                aspect-ratio: 16/9;
+                object-fit: cover;
+                object-position: center;
+            }
+
 
             .title{
                 font-size: 16px;
                 width: 150px;
+                z-index: 1;
             }
 
             .original-title{
                 font-size: 12px;
+                z-index: 1;
             }
 
-            .language{
-          
+            .flag{
+                z-index: 1;
+                height: 15px;
+                width: 20px;
+                
+            }
+
+            .vote{
+                z-index: 1;
             }
             
         }
