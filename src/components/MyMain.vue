@@ -13,7 +13,7 @@
             <div class="card_movie" v-for="element in movies" :key="element.id">
                  
 
-                 <img class="thumb" :src="`https://image.tmdb.org/t/p/w342/${element.poster_path}`" alt="">
+                <img class="thumb" :src="`https://image.tmdb.org/t/p/w342/${element.poster_path}`"  alt="">
                 <!-- titolo -->
                 <h2 class="title">{{element.title}} {{element.name}}</h2>
                 <!-- titolo originale -->
@@ -22,7 +22,7 @@
                 <img class="flag" :src="flags[element.original_language]">
                 <!-- voto -->
                 <div class="stars_wrapper">
-                    <i class="fa-solid fa-star vote" v-for="items in voteFn(element.vote_average)" :key="items"></i>
+                    <i class="fa-solid fa-star vote" :class="index < voteFn(element.vote_average) ? 'star_y':'' "  v-for="(items,index) in 5" :key="index"></i>
                 </div>
                 
             </div>
@@ -181,7 +181,6 @@ main{
 
 
         .card_movie{
-            background-color: grey;
             border-radius: 8px;
             width: calc( (100% / 5) - 10px);
             height: 190px;
@@ -192,6 +191,7 @@ main{
             position: relative;
             color: white;
             overflow: hidden;
+            background-image: url(../assets/thumb-test.jpg);
 
         
         
@@ -203,7 +203,6 @@ main{
                 width: 100%;
                 display: block;
                 position: absolute;
-                margin: auto;
                 top: 0;
                 left: 0;
                 right: 0;
@@ -243,7 +242,13 @@ main{
                 display: inline;
                 font-size: 12px;
                 color: white;
-            }
+
+
+                }
+
+                .star_y{
+                    color: yellow;
+                }
             }
             
             
