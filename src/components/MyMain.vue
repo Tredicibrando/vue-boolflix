@@ -14,16 +14,21 @@
                  
 
                 <img class="thumb" :src="`https://image.tmdb.org/t/p/w342/${element.poster_path}`"  alt="">
-                <!-- titolo -->
-                <h2 class="title">{{element.title}} {{element.name}}</h2>
-                <!-- titolo originale -->
-                <p class="original-title">{{element.original_title}} {{element.original_name}}</p>
-                <!-- lingua -->
-                <img class="flag" :src="flags[element.original_language]">
-                <!-- voto -->
-                <div class="stars_wrapper">
-                    <i class="fa-solid fa-star vote" :class="index < voteFn(element.vote_average) ? 'star_y':'' "  v-for="(items,index) in 5" :key="index"></i>
+                
+
+                <div class="thumb_description">
+                        <!-- titolo -->
+                    <h2 class="title">{{element.title}} {{element.name}}</h2>
+                    <!-- titolo originale -->
+                    <p class="original-title">{{element.original_title}} {{element.original_name}}</p>
+                    <!-- lingua -->
+                    <img class="flag" :src="flags[element.original_language]">
+                    <!-- voto -->
+                    <div class="stars_wrapper">
+                        <i class=" fa-star vote" :class=" index < voteFn(element.vote_average) ? 'fa-solid star_y':'fa-regular' "  v-for="(items,index) in 5" :key="index"></i>
+                    </div>
                 </div>
+               
                 
             </div>
         </div>
@@ -193,6 +198,8 @@ main{
             overflow: hidden;
             background-image: url(../assets/thumb-test.jpg);
 
+
+
         
         
             
@@ -210,46 +217,76 @@ main{
                 aspect-ratio: 16/9;
                 object-fit: cover;
                 object-position: center;
-            }
-
-
-            .title{
-                font-size: 16px;
-                width: 150px;
-                z-index: 1;
-            }
-
-            .original-title{
-                font-size: 12px;
-                z-index: 1;
-            }
-
-            .flag{
-                z-index: 1;
-                height: 15px;
-                width: 20px;
                 
             }
 
 
-            .stars_wrapper{
+            .thumb_description{
+                z-index: 3;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                display: none;
+                
+
+                
+                .title{
+                font-size: 16px;
+                // width: 150px;
+                z-index: 1;
+                font-weight: 700;
+                }
+
+                .original-title{
+                font-size: 12px;
+                z-index: 1;
+                }
+
+                .original-title{
+                font-size: 12px;
+                z-index: 1;
+                }
+                
+
+                .flag{
+                z-index: 1;
+                height: 15px;
+                width: 20px;
+                }
+
+                .stars_wrapper{
                 display: flex;
                 gap: 3px;
                 padding: 5px 0;
 
-                .vote{
-                z-index: 1;
-                display: inline;
-                font-size: 12px;
-                color: white;
+                    .vote{
+                    z-index: 1;
+                    display: inline;
+                    font-size: 12px;
+                    color: white;
+                    }
 
-
+                        .star_y{
+                            color: gold;
+                        }
                 }
+                
 
-                .star_y{
-                    color: yellow;
+
+
+                &:hover{
+                    display: block;
+                    background: rgba(12,12,12,0.3);
                 }
             }
+
+            
+
+            
+
+
+            
+            
             
             
         }
